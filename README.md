@@ -1,27 +1,42 @@
-# CardioNet-AgentBench v0.1.0
+# PTB-XL ECG Superclass Benchmark v0.2.0
 
-**CPU-first, reproducible deep-learning benchmark for multi-label ECG classification using PTB-XL.**
+**1D CNN and 1D ResNet baselines for multi-label ECG classification on PTB-XL, with seed variation, patient-level intervals and selective prediction.**
 
-This research software trains and evaluates 1D CNN and 1D ResNet models on the five PTB-XL diagnostic superclasses: `NORM`, `MI`, `STTC`, `CD`, and `HYP`.
+The models predict the five PTB-XL diagnostic superclasses: `NORM`, `MI`, `STTC`, `CD` and `HYP`.
 
-> **Research-use only. Not a medical device.** Outputs are model predictions over dataset labels, not diagnoses, triage, treatment recommendations, or clinical decision support. Do not use for patient care. PTB-XL labels are dataset annotations and do not establish clinical ground truth for an individual.
+> **Research use only. Not a medical device.** Outputs are model scores against dataset labels. They are not diagnoses, triage or treatment advice and must not be used for patient care.
 
-## Research question
+## Research questions
 
-Can a compact 1D residual network improve multi-label ECG superclass classification over a 1D CNN baseline under a patient-level evaluation protocol, and how does confidence-threshold abstention change coverage and selective performance?
+1. Does a compact 1D residual network beat a 1D CNN of similar size on the official PTB-XL test fold, once seed-to-seed variation and patient-level uncertainty are taken into account?
+2. When low-confidence records are set aside, how much does macro F1 improve on the records that are kept, and does the gain differ between the two models?
 
 ## Dataset
 
-- PTB-XL: 21,837 ten-second 12-lead ECG records from 18,885 patients.
-- Official source: https://physionet.org/content/ptb-xl/1.0.3/
-- Paper: https://doi.org/10.1038/s	data? (See `CITATION.cff` and `docs/REFERENCES.md` for corrected bibliographic details.)
-- Dataset is not bundled. The downloader retrieves the official PhysioNet v1.0.3 files through WFDB; allow roughly 3 GB expanded disk space. Access is governed by the dataset's CC BY 4.0 licence and attribution requirements.
-- This implementation uses the 100 Hz waveform files by default and maps SCP statements to five diagnostic superclasses via `scp_statements.csv`.
+- PTB-XL 1.0.3 (PhysioNet): 21,799 ten-second 12-lead ECGs from 18,869 patients. The 2020 paper describes version 1.0.1 (21,837 records from 18,885 patients); version 1.0.3 removed duplicate records and revised some labels.
+- Records with no diagnostic superclass are excluded. The 100 Hz signals are used.
+- Official stratified folds, split by patient: folds 1–8 train, 9 validation, 10 test. The preparation step checks that no patient appears in two partitions.
+- Not redistributed. Licence: CC BY 4.0.
 
-## Quick start (macOS CPU)
+## Method
+
+- Channel-wise normalisation from the training folds only.
+- Each model is trained with five seeds (17, 23, 31, 47, 59), AdamW, binary cross-entropy, early stopping on validation loss (patience 5, at most 40 epochs).
+- Per-label decision thresholds are chosen on the validation fold and frozen for the test fold.
+- Reported: macro AUROC per seed (mean and SD), the seed-ensemble macro AUROC with a 95% patient-level bootstrap interval, the paired ResNet − CNN difference, per-label AUROC and macro F1 when only the most confident 100%, 90%, …, 50% of records are kept.
+
+## Run on Kaggle (recommended)
+
+Import `notebooks/ptbxl_cnn_vs_resnet.ipynb` from this repository into Kaggle, set **GPU** and **Internet on**, and run all cells. The notebook installs the package, gets PTB-XL, trains ten models and writes `reports/` (tables, chart, per-seed metrics and test probabilities).
+
+## Results
+
+Results will be added from the Kaggle run.
+
+## Run locally
 
 ```bash
-cd CardioNet-AgentBench-v0.1.0
+cd ptbxl-ecg-superclass-benchmark
 python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
@@ -44,22 +59,23 @@ python -m cardionet.cli prepare --data-dir data/raw --output-dir data/processed 
 Train a baseline (CPU):
 
 ```bash
-python -m cardionet.cli train --config configs/default.yaml --model cnn --epochs 5
+python -m cardionet.cli train --config configs/default.yaml --model cnn --epochs 40 --seed 17
 ```
 
 Train ResNet:
 
 ```bash
-python -m cardionet.cli train --config configs/default.yaml --model resnet --epochs 10
+python -m cardionet.cli train --config configs/default.yaml --model resnet --epochs 40 --seed 17
 ```
 
 Evaluate a checkpoint:
 
 ```bash
-python -m cardionet.cli evaluate --config configs/default.yaml --checkpoint checkpoints/resnet_best.pt
+python -m cardionet.cli evaluate --config configs/default.yaml --checkpoint checkpoints/resnet_s17_best.pt
+python -m cardionet.cli analyse --checkpoint-dir checkpoints --output reports
 ```
 
-All commands are CPU-compatible. Training time depends on CPU, disk, and PyTorch build. Start with a smaller epoch count to validate the pipeline.
+All commands run on CPU or GPU; a GPU is used automatically when available. Training time depends on CPU, disk, and PyTorch build. Start with a smaller epoch count to validate the pipeline.
 
 ## Methodology and safeguards
 
@@ -68,23 +84,18 @@ All commands are CPU-compatible. Training time depends on CPU, disk, and PyTorch
 - Training-only normalization statistics are applied to validation/test.
 - Validation threshold selection is performed per label, then frozen for test evaluation.
 - Reports include macro/micro F1, macro AUROC (where defined), per-label AUROC and average precision, and confusion-independent multilabel metrics.
-- Optional abstention is a simple confidence rule over sigmoid scores. It is a research analysis, not a clinical safety guarantee.
-- No external LLM/agent is used in v0.1.0. “AgentBench” denotes a reproducible benchmark scaffold, not autonomous clinical agents.
+- Selective prediction ranks records by mean label confidence (the mean of max(p, 1 − p) over the five labels). It is a research analysis, not a clinical safety guarantee.
 
 ## Repository layout
 
 ```text
 src/cardionet/       data, models, training, evaluation, CLI
 configs/             experiment configuration
-scripts/             convenience scripts
+notebooks/           Kaggle notebook for the full experiment
 tests/               unit tests
 docs/                protocol, model card, references
 reports/             generated metrics (not committed by default)
 ```
-
-## Hugging Face publication
-
-See `docs/HUGGINGFACE.md`. Publish only model weights, configuration, model card, and a small synthetic example if desired. Do not upload PTB-XL waveform files or patient-identifying data. Check dataset terms before redistributing any derived artifacts. A Hugging Face repository is not clinical validation.
 
 ## Reproducibility
 

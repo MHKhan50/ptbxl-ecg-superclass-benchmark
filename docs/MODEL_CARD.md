@@ -9,7 +9,7 @@ tags:
 - research
 ---
 
-# CardioNet ECG ResNet
+# PTB-XL 1D ResNet (five ECG superclasses)
 
 ## Model description
 A compact 1D residual convolutional network for research benchmarking of five PTB-XL diagnostic superclass labels from 12-lead ECG waveforms.

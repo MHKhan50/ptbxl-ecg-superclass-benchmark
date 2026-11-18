@@ -1,8 +1,41 @@
 cff-version: 1.2.0
-message: "If you use CardioNet-AgentBench, please cite it as software."
-title: "CardioNet-AgentBench"
-version: 0.1.0
+message: "If you use this software, please cite it as below."
+title: "PTB-XL ECG superclass benchmark: 1D CNN and 1D ResNet with selective prediction"
+version: 0.2.0
 date-released: 2026-11-18
-authors:
-  - name: "CardioNet-AgentBench Research"
 type: software
+authors:
+  - family-names: Hussain
+    given-names: Muzammal
+    orcid: "https://orcid.org/0009-0001-2570-5686"
+repository-code: "https://github.com/MHKhan50/ptbxl-ecg-superclass-benchmark"
+license: MIT
+keywords:
+  - electrocardiography
+  - PTB-XL
+  - deep learning
+  - selective prediction
+  - multi-label classification
+references:
+  - type: article
+    authors:
+      - family-names: Wagner
+        given-names: Patrick
+      - family-names: Strodthoff
+        given-names: Nils
+      - family-names: Bousseljot
+        given-names: Ralf-Dieter
+      - family-names: Kreiseler
+        given-names: Dieter
+      - family-names: Lunze
+        given-names: Fatima I.
+      - family-names: Samek
+        given-names: Wojciech
+      - family-names: Schaeffter
+        given-names: Tobias
+    title: "PTB-XL, a large publicly available electrocardiography dataset"
+    journal: "Scientific Data"
+    volume: 7
+    start: 154
+    year: 2020
+    doi: "10.1038/s41597-020-0495-6"

@@ -13,6 +13,13 @@ from .models import build_model
 
 def set_seed(seed):
     random.seed(seed); np.random.seed(seed); torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
+
+def get_device():
+    """GPU when one is available (for example on Kaggle), otherwise CPU."""
+    return torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def _predict(model, loader, device):
     model.eval(); probs, labels = [], []
@@ -23,9 +30,11 @@ def _predict(model, loader, device):
             labels.append(y.numpy())
     return np.concatenate(labels), np.concatenate(probs)
 
-def run_training(config_path, model_name="resnet", epochs=None, checkpoint_dir="checkpoints"):
+def run_training(config_path, model_name="resnet", epochs=None, checkpoint_dir="checkpoints", seed=None):
+    """Train one model with one seed; save the best checkpoint, metrics and test probabilities."""
     config = yaml.safe_load(Path(config_path).read_text())
-    seed = int(config["training"]["seed"]); set_seed(seed)
+    seed = int(config["training"]["seed"] if seed is None else seed); set_seed(seed)
+    generator = torch.Generator(); generator.manual_seed(seed)
     processed = Path(config["data"]["processed_dir"])
     archive = np.load(processed / "ptbxl_100hz.npz")
     x = np.load(processed / "signals_normalized.npy", mmap_mode="r")
@@ -34,10 +43,10 @@ def run_training(config_path, model_name="resnet", epochs=None, checkpoint_dir="
     val_idx = np.where(folds == config["data"]["fold_validation"])[0]
     test_idx = np.where(folds == config["data"]["fold_test"])[0]
     tr = DataLoader(ECGDataset(x, y, train_idx), batch_size=config["training"]["batch_size"],
-                    shuffle=True, num_workers=config["training"]["num_workers"])
+                    shuffle=True, num_workers=config["training"]["num_workers"], generator=generator)
     va = DataLoader(ECGDataset(x, y, val_idx), batch_size=config["training"]["batch_size"])
     te = DataLoader(ECGDataset(x, y, test_idx), batch_size=config["training"]["batch_size"])
-    device = torch.device("cpu")
+    device = get_device()
     model = build_model(model_name, dropout=config["model"]["dropout"],
                         channels=tuple(config["model"]["channels"])).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=config["training"]["learning_rate"],
@@ -57,6 +66,7 @@ def run_training(config_path, model_name="resnet", epochs=None, checkpoint_dir="
         model.eval(); val_losses = []
         with torch.no_grad():
             for xb, yb in va:
+                xb, yb = xb.to(device), yb.to(device)
                 val_losses.append(float(criterion(model(xb), yb).item()))
         val_loss = float(np.mean(val_losses))
         print(f"epoch={epoch}/{epochs} train_loss={np.mean(losses):.5f} val_loss={val_loss:.5f}")
@@ -64,23 +74,27 @@ def run_training(config_path, model_name="resnet", epochs=None, checkpoint_dir="
             best_loss, stale = val_loss, 0
             torch.save({"model_state_dict": model.state_dict(), "model_name": model_name,
                         "config": config, "labels": ["NORM","MI","STTC","CD","HYP"]},
-                       out / f"{model_name}_best.pt")
+                       out / f"{model_name}_s{seed}_best.pt")
         else:
             stale += 1
             if stale >= config["training"]["patience"]:
                 break
-    checkpoint = torch.load(out / f"{model_name}_best.pt", map_location="cpu", weights_only=False)
+    checkpoint = torch.load(out / f"{model_name}_s{seed}_best.pt", map_location=device, weights_only=False)
     model.load_state_dict(checkpoint["model_state_dict"])
     vy, vp = _predict(model, va, device)
     thresholds = choose_thresholds(vy, vp)
     ty, tp = _predict(model, te, device)
     metrics = evaluate_multilabel(ty, tp, thresholds)
     metrics["abstention"] = abstention_summary(tp, 0.8)
+    np.savez_compressed(out / f"{model_name}_s{seed}_predictions.npz", val_y=vy, val_p=vp, test_y=ty, test_p=tp,
+                        test_index=test_idx, val_index=val_idx, thresholds=thresholds)
     metrics["metadata"] = {"model": model_name, "seed": seed, "epochs_requested": epochs,
+                           "epochs_run": epoch, "best_val_loss": best_loss, "device": str(device),
+                           "torch": torch.__version__,
                            "elapsed_seconds": round(time.time()-start, 2),
                            "validation_thresholds_selected": True,
                            "test_fold": config["data"]["fold_test"]}
-    (out / f"{model_name}_metrics.json").write_text(json.dumps(metrics, indent=2))
+    (out / f"{model_name}_s{seed}_metrics.json").write_text(json.dumps(metrics, indent=2))
     print(json.dumps(metrics, indent=2))
     return metrics
 
@@ -98,7 +112,8 @@ def run_evaluation(config_path, checkpoint_path):
     model = build_model(checkpoint["model_name"], channels=tuple(config["model"]["channels"]),
                         dropout=config["model"]["dropout"])
     model.load_state_dict(checkpoint["model_state_dict"])
-    labels, probabilities = _predict(model, loader, torch.device("cpu"))
+    device = get_device(); model.to(device)
+    labels, probabilities = _predict(model, loader, device)
     metrics_path = Path(checkpoint_path).with_name(Path(checkpoint_path).stem.replace("_best", "") + "_metrics.json")
     thresholds = np.full(y.shape[1], float(config["training"].get("threshold", 0.5)))
     if metrics_path.exists():
