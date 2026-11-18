@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+message: "If you use CardioNet-AgentBench, please cite it as software."
+title: "CardioNet-AgentBench"
+version: 0.1.0
+date-released: 2026-11-18
+authors:
+  - name: "CardioNet-AgentBench Research"
+type: software

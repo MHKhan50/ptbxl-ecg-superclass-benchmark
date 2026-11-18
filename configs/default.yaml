@@ -1,0 +1,19 @@
+data:
+  data_dir: data/raw
+  processed_dir: data/processed
+  sampling_rate: 100
+  folds_train: [1, 2, 3, 4, 5, 6, 7, 8]
+  fold_validation: 9
+  fold_test: 10
+training:
+  seed: 17
+  batch_size: 32
+  epochs: 5
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  num_workers: 0
+  patience: 5
+  threshold: 0.5
+model:
+  channels: [32, 64, 128]
+  dropout: 0.2
