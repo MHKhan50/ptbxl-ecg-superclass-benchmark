@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- The Kaggle notebook also copies each model's best checkpoint (`*_best.pt`) to `reports/`, so the trained weights are kept in the notebook output; notebook stored without outputs.
+
 ## 0.2.0 (2026-11-18)
 
 - Five seeds per model and an `analyse` command: macro AUROC per seed, seed-ensemble AUROC with patient-level bootstrap intervals, paired ResNet − CNN difference and selective-prediction curves (macro F1 at 100% to 50% coverage).
