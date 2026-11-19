@@ -1,0 +1,23 @@
+{
+  "signals_file": "signals_normalized.npy",
+  "records_after_label_filter": 21388,
+  "shape": [
+    21388,
+    12,
+    1000
+  ],
+  "labels": [
+    "NORM",
+    "MI",
+    "STTC",
+    "CD",
+    "HYP"
+  ],
+  "sampling_rate": 100,
+  "train_records": 17084,
+  "validation_records": 2146,
+  "test_records": 2158,
+  "seed": 17,
+  "patient_overlap": false,
+  "dataset": "PTB-XL 1.0.3"
+}

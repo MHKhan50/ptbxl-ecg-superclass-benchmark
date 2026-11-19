@@ -1,0 +1,46 @@
+{
+  "macro_f1": 0.7355071068918436,
+  "micro_f1": 0.7650197968669307,
+  "macro_precision": 0.7098983313766463,
+  "macro_recall": 0.7669988750686961,
+  "macro_auroc": 0.9164856881702088,
+  "per_label_auroc": {
+    "NORM": 0.9356647853421796,
+    "MI": 0.9088127544097693,
+    "STTC": 0.9312702769567006,
+    "CD": 0.9155518516361942,
+    "HYP": 0.8911287725062003
+  },
+  "per_label_average_precision": {
+    "NORM": 0.9110722622718809,
+    "MI": 0.8020951853833078,
+    "STTC": 0.820420985268142,
+    "CD": 0.8326358124298672,
+    "HYP": 0.6632037397975867
+  },
+  "thresholds": [
+    0.5,
+    0.25,
+    0.35,
+    0.45000000000000007,
+    0.25
+  ],
+  "abstention": {
+    "confidence_threshold": 0.8,
+    "coverage": 0.8438368860055607,
+    "accepted_records": 1821,
+    "abstained_records": 337
+  },
+  "metadata": {
+    "model": "cnn",
+    "seed": 23,
+    "epochs_requested": 40,
+    "epochs_run": 14,
+    "best_val_loss": 0.2789292957784389,
+    "device": "cuda",
+    "torch": "2.11.0+cu130",
+    "elapsed_seconds": 36.28,
+    "validation_thresholds_selected": true,
+    "test_fold": 10
+  }
+}

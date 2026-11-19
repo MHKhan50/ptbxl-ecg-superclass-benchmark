@@ -31,7 +31,25 @@ Import `notebooks/ptbxl_cnn_vs_resnet.ipynb` from this repository into Kaggle, s
 
 ## Results
 
-Results will be added from the Kaggle run.
+Official test fold (fold 10): 2,158 records. Kaggle T4 GPU, five seeds per model. Full outputs: `results/kaggle-2026-11-19/`.
+
+| Model | Macro AUROC, mean ± SD over 5 seeds | Seed-ensemble macro AUROC [95% CI] | Macro F1 at 100% / 80% / 50% coverage |
+|---|---|---|---|
+| 1D CNN | 0.9184 ± 0.0022 | 0.9227 [0.9148, 0.9305] | 0.748 / 0.770 / 0.794 |
+| 1D ResNet | 0.9250 ± 0.0030 | 0.9317 [0.9242, 0.9387] | 0.757 / 0.784 / 0.807 |
+
+ResNet minus CNN (seed ensembles): **+0.0090 [+0.0068, +0.0113]**; ResNet is higher in 4 of 5 paired seeds. Intervals come from 1,000 patient-level bootstrap resamples. Coverage is the share of test records kept, most confident first; ensemble values.
+
+Mean per-label AUROC over seeds:
+
+| Model | NORM | MI | STTC | CD | HYP |
+|---|---|---|---|---|---|
+| 1D CNN | 0.938 | 0.915 | 0.933 | 0.912 | 0.894 |
+| 1D ResNet | 0.945 | 0.927 | 0.933 | 0.919 | 0.902 |
+
+HYP is the hardest label for both models (average precision about 0.66–0.69).
+
+![Per-label AUROC and selective macro F1](results/kaggle-2026-11-19/fig_auroc_selective.png)
 
 ## Run locally
 

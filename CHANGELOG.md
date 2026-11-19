@@ -3,6 +3,8 @@
 ## Unreleased
 
 - The Kaggle notebook also copies each model's best checkpoint (`*_best.pt`) to `reports/`, so the trained weights are kept in the notebook output; notebook stored without outputs.
+- Results of the five-seed Kaggle run in `results/kaggle-2026-11-19/` and in the README.
+- `write_normalisation` saves the training-fold channel mean and std with the lead order (`normalisation.json`); the main notebook now writes it to `reports/`, and `notebooks/ptbxl_normalisation_stats.ipynb` recomputes it on CPU for the released checkpoints.
 
 ## 0.2.0 (2026-11-18)
 

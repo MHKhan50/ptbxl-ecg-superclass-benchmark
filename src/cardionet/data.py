@@ -145,3 +145,28 @@ class ECGDataset(Dataset):
         import torch
         i = self.indices[index]
         return torch.from_numpy(self.x[i]), torch.from_numpy(self.y[i])
+
+
+def write_normalisation(processed_dir: str | Path, data_dir: str | Path | None, output: str | Path) -> dict:
+    """Write the training-fold channel mean and std (and the lead order) needed to scale a new ECG."""
+    arrays = np.load(Path(processed_dir) / "ptbxl_100hz.npz")
+    leads = None
+    if data_dir is not None:
+        import wfdb
+        root = Path(data_dir)
+        db_path = next(iter(root.glob("**/ptbxl_database.csv")))
+        first = pd.read_csv(db_path)["filename_lr"].iloc[0]
+        leads = [str(name) for name in wfdb.rdheader(str(db_path.parent / first)).sig_name]
+    stats = {
+        "dataset": "PTB-XL 1.0.3",
+        "sampling_rate": 100,
+        "samples": 1000,
+        "folds": [1, 2, 3, 4, 5, 6, 7, 8],
+        "units": "mV",
+        "leads": leads,
+        "mean": [float(v) for v in arrays["mean"].reshape(-1)],
+        "std": [float(v) for v in arrays["std"].reshape(-1)],
+    }
+    Path(output).parent.mkdir(parents=True, exist_ok=True)
+    Path(output).write_text(json.dumps(stats, indent=2))
+    return stats

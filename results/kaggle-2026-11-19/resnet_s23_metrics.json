@@ -1,0 +1,46 @@
+{
+  "macro_f1": 0.7453874147472366,
+  "micro_f1": 0.7742591024555462,
+  "macro_precision": 0.7059648484774834,
+  "macro_recall": 0.7922181688703798,
+  "macro_auroc": 0.9247225951930268,
+  "per_label_auroc": {
+    "NORM": 0.9411697232758508,
+    "MI": 0.9272919493441882,
+    "STTC": 0.9308892138022247,
+    "CD": 0.9202828403400489,
+    "HYP": 0.9039792492028216
+  },
+  "per_label_average_precision": {
+    "NORM": 0.918618259038807,
+    "MI": 0.8394823270009416,
+    "STTC": 0.8260733199866923,
+    "CD": 0.8445055850281012,
+    "HYP": 0.682997652118365
+  },
+  "thresholds": [
+    0.45000000000000007,
+    0.25,
+    0.4,
+    0.4,
+    0.25
+  ],
+  "abstention": {
+    "confidence_threshold": 0.8,
+    "coverage": 0.8447636700648748,
+    "accepted_records": 1823,
+    "abstained_records": 335
+  },
+  "metadata": {
+    "model": "resnet",
+    "seed": 23,
+    "epochs_requested": 40,
+    "epochs_run": 14,
+    "best_val_loss": 0.2661550472189179,
+    "device": "cuda",
+    "torch": "2.11.0+cu130",
+    "elapsed_seconds": 72.47,
+    "validation_thresholds_selected": true,
+    "test_fold": 10
+  }
+}
