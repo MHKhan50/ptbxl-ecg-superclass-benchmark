@@ -1,43 +1,14 @@
-# Hugging Face publication checklist
+# Hugging Face release
 
-Target repositories (replace namespace if needed):
-- Model: `MHKhan50/cardionet-ecg-resnet`
-- Dataset card: `MHKhan50/cardionet-ptbxl-benchmark` (metadata/code only unless redistribution is explicitly permitted)
-- Demo: Hugging Face Space `cardionet-ecg-demo`
+- Model: [MHkhan50/ptbxl-ecg-resnet](https://huggingface.co/MHkhan50/ptbxl-ecg-resnet): ResNet seed 23 (lowest validation loss of five seeds), `config.json` with lead order, training-fold normalisation, thresholds and abstention rule.
+- Demo: [MHkhan50/ecg-superclass-check](https://huggingface.co/spaces/MHkhan50/ecg-superclass-check).
 
-## Prepare a model export
-After a successful training run:
+Sources are in `hf/model/` and `hf/space/`. The normalisation statistics come from `notebooks/ptbxl_normalisation_stats.ipynb` (copy in `results/kaggle-2026-11-19/normalisation.json`). Upload:
 
 ```bash
-python - <<'PY'
-import torch
-ckpt = torch.load("checkpoints/resnet_best.pt", map_location="cpu", weights_only=False)
-torch.save(ckpt, "cardionet_resnet.pt")
-PY
+pip install huggingface_hub
+hf auth login                      # write token, entered in the terminal only
+python scripts/upload_hf.py --weights path/to/resnet_s23_best.pt
 ```
 
-Install tools and authenticate:
-
-```bash
-pip install -e ".[huggingface]"
-hf auth login
-```
-
-Create a model repository and upload model card + weights:
-
-```bash
-hf repo create MHKhan50/cardionet-ecg-resnet --repo-type model
-hf upload MHKhan50/cardionet-ecg-resnet ./cardionet_resnet.pt
-hf upload MHKhan50/cardionet-ecg-resnet ./docs/MODEL_CARD.md README.md
-hf upload MHKhan50/cardionet-ecg-resnet ./README.md project-README.md
-```
-
-Check current Hugging Face CLI syntax before publishing: https://huggingface.co/docs/huggingface_hub/guides/cli
-
-## Before upload
-- [ ] Training completed and metrics reviewed.
-- [ ] No raw PTB-XL signals or patient-level data included.
-- [ ] Model card includes dataset version, split, metrics, intended use and limitations.
-- [ ] Verify dataset licence/terms and any redistribution restrictions.
-- [ ] Include exact training configuration and software versions.
-- [ ] Do not claim clinical readiness or diagnostic accuracy in practice.
+No PTB-XL signals are uploaded. The demo's example records are read from PhysioNet at run time.

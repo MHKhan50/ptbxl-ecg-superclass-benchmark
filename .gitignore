@@ -14,3 +14,4 @@ reports/figures/
 *.pt
 *.pth
 .env
+hf/model/*.pt

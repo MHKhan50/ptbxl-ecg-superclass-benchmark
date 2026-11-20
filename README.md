@@ -31,6 +31,8 @@ Import `notebooks/ptbxl_cnn_vs_resnet.ipynb` from this repository into Kaggle, s
 
 ## Results
 
+Model on Hugging Face: [MHkhan50/ptbxl-ecg-resnet](https://huggingface.co/MHkhan50/ptbxl-ecg-resnet) · demo: [ECG Superclass Check](https://huggingface.co/spaces/MHkhan50/ecg-superclass-check) (research only).
+
 Official test fold (fold 10): 2,158 records. Kaggle T4 GPU, five seeds per model. Full outputs: `results/kaggle-2026-11-19/`.
 
 | Model | Macro AUROC, mean ± SD over 5 seeds | Seed-ensemble macro AUROC [95% CI] | Macro F1 at 100% / 80% / 50% coverage |

@@ -1,0 +1,105 @@
+{
+  "architecture": "ECGResNet",
+  "model_kwargs": {
+    "num_labels": 5,
+    "channels": [
+      32,
+      64,
+      128
+    ],
+    "dropout": 0.2
+  },
+  "labels": [
+    "NORM",
+    "MI",
+    "STTC",
+    "CD",
+    "HYP"
+  ],
+  "label_names": {
+    "NORM": "Normal ECG",
+    "MI": "Myocardial infarction",
+    "STTC": "ST/T change",
+    "CD": "Conduction disturbance",
+    "HYP": "Hypertrophy"
+  },
+  "input": {
+    "leads": [
+      "I",
+      "II",
+      "III",
+      "AVR",
+      "AVL",
+      "AVF",
+      "V1",
+      "V2",
+      "V3",
+      "V4",
+      "V5",
+      "V6"
+    ],
+    "sampling_rate_hz": 100,
+    "samples": 1000,
+    "units": "mV",
+    "normalisation": "(x - mean) / std per lead, training folds 1-8",
+    "mean": [
+      -0.001746811862099866,
+      -0.0015212931156082631,
+      0.0002254560492237521,
+      0.0016165512066289825,
+      -0.0009319163827935465,
+      -0.0006254733210469944,
+      0.00017762921782479306,
+      -0.0009517785193273021,
+      -0.001565068984118013,
+      -0.0013563100951855679,
+      -0.0007997736356735578,
+      -0.002424251412760938
+    ],
+    "std": [
+      0.16001027119529068,
+      0.15922999399842086,
+      0.15997245099330848,
+      0.13814794770150993,
+      0.13876729609204644,
+      0.13797789042150452,
+      0.2343496058058865,
+      0.3342161395558954,
+      0.32846893084117434,
+      0.2927638771938986,
+      0.27206945358877055,
+      0.28096762547217247
+    ]
+  },
+  "thresholds": {
+    "NORM": 0.45,
+    "MI": 0.25,
+    "STTC": 0.4,
+    "CD": 0.4,
+    "HYP": 0.25
+  },
+  "abstention": {
+    "confidence": "mean over labels of max(p, 1 - p)",
+    "threshold": 0.8
+  },
+  "training": {
+    "dataset": "PTB-XL 1.0.3",
+    "seed": 23,
+    "selected_by": "lowest validation loss of five seeds",
+    "best_val_loss": 0.2662,
+    "epochs_run": 14
+  },
+  "test_fold_10": {
+    "records": 2158,
+    "macro_auroc": 0.9247,
+    "macro_f1": 0.7454,
+    "per_label_auroc": {
+      "NORM": 0.9412,
+      "MI": 0.9273,
+      "STTC": 0.9309,
+      "CD": 0.9203,
+      "HYP": 0.904
+    },
+    "coverage_at_0.8": 0.8448
+  }
+}
