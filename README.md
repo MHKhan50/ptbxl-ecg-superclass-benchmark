@@ -1,5 +1,7 @@
 # PTB-XL ECG Superclass Benchmark v0.3.0
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24407647.svg)](https://doi.org/10.5281/zenodo.24407647)
+
 **1D CNN and 1D ResNet baselines for multi-label ECG classification on PTB-XL, with seed variation, patient-level intervals and selective prediction.**
 
 The models predict the five PTB-XL diagnostic superclasses: `NORM`, `MI`, `STTC`, `CD` and `HYP`.
