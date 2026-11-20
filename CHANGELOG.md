@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.3.0 (2026-11-20)
+
+- Paper in `paper/` (LaTeX source, references, figure and PDF) reporting the five-seed results.
 
 - Hugging Face release: model card, `config.json` (normalisation, thresholds, abstention) and Gradio demo in `hf/`, upload script `scripts/upload_hf.py`; training-fold normalisation statistics in `results/kaggle-2026-11-19/normalisation.json`.
 - The Kaggle notebook also copies each model's best checkpoint (`*_best.pt`) to `reports/`, so the trained weights are kept in the notebook output; notebook stored without outputs.

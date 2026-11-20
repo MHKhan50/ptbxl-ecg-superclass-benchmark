@@ -1,0 +1,61 @@
+\begin{thebibliography}{7}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abreu et~al.(2025)Abreu, Paix{\~a}o, Li, Gomes, Macfarlane, Oliveira,
+  Carvalho, Sch{\"o}n, Ribeiro, and Ribeiro]{abreu2025code2}
+Petrus E. O. G.~B. Abreu, Gabriela M.~M. Paix{\~a}o, Jiawei Li, Paulo~R. Gomes,
+  Peter~W. Macfarlane, Ana C.~S. Oliveira, Vin{\'i}cius~T. Carvalho, Thomas~B.
+  Sch{\"o}n, Antonio Luiz~P. Ribeiro, and Ant{\^o}nio~H. Ribeiro.
+\newblock {CODE-II}: A large-scale dataset for artificial intelligence in {ECG}
+  analysis.
+\newblock \emph{arXiv preprint arXiv:2511.15632}, 2025.
+
+\bibitem[Geifman and El-Yaniv(2017)]{geifman2017selective}
+Yonatan Geifman and Ran El-Yaniv.
+\newblock Selective classification for deep neural networks.
+\newblock In \emph{Advances in Neural Information Processing Systems 30
+  (NeurIPS)}, 2017.
+
+\bibitem[He et~al.(2016)He, Zhang, Ren, and Sun]{he2016resnet}
+Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
+\newblock Deep residual learning for image recognition.
+\newblock In \emph{IEEE Conference on Computer Vision and Pattern Recognition
+  (CVPR)}, pages 770--778, 2016.
+\newblock \doi{10.1109/CVPR.2016.90}.
+
+\bibitem[Loshchilov and Hutter(2019)]{loshchilov2019adamw}
+Ilya Loshchilov and Frank Hutter.
+\newblock Decoupled weight decay regularization.
+\newblock In \emph{International Conference on Learning Representations
+  (ICLR)}, 2019.
+
+\bibitem[Strodthoff et~al.(2021)Strodthoff, Wagner, Schaeffter, and
+  Samek]{strodthoff2021benchmarks}
+Nils Strodthoff, Patrick Wagner, Tobias Schaeffter, and Wojciech Samek.
+\newblock Deep learning for {ECG} analysis: Benchmarks and insights from
+  {PTB-XL}.
+\newblock \emph{IEEE Journal of Biomedical and Health Informatics}, 25\penalty0
+  (5):\penalty0 1519--1528, 2021.
+\newblock \doi{10.1109/JBHI.2020.3022989}.
+
+\bibitem[Wagner et~al.(2020)Wagner, Strodthoff, Bousseljot, Kreiseler, Lunze,
+  Samek, and Schaeffter]{wagner2020ptbxl}
+Patrick Wagner, Nils Strodthoff, Ralf-Dieter Bousseljot, Dieter Kreiseler,
+  Fatima~I. Lunze, Wojciech Samek, and Tobias Schaeffter.
+\newblock {PTB-XL}, a large publicly available electrocardiography dataset.
+\newblock \emph{Scientific Data}, 7:\penalty0 154, 2020.
+\newblock \doi{10.1038/s41597-020-0495-6}.
+
+\bibitem[Wang et~al.(2017)Wang, Yan, and Oates]{wang2017tsc}
+Zhiguang Wang, Weizhong Yan, and Tim Oates.
+\newblock Time series classification from scratch with deep neural networks: A
+  strong baseline.
+\newblock In \emph{International Joint Conference on Neural Networks (IJCNN)},
+  pages 1578--1585, 2017.
+\newblock \doi{10.1109/IJCNN.2017.7966039}.
+
+\end{thebibliography}

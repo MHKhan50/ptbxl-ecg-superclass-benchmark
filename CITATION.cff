@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 title: "PTB-XL ECG superclass benchmark: 1D CNN and 1D ResNet with selective prediction"
-version: 0.2.0
-date-released: 2026-11-18
+version: 0.3.0
+date-released: 2026-11-20
 type: software
 authors:
   - family-names: Hussain

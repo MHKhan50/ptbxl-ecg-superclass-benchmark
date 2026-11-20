@@ -1,4 +1,4 @@
-# PTB-XL ECG Superclass Benchmark v0.2.0
+# PTB-XL ECG Superclass Benchmark v0.3.0
 
 **1D CNN and 1D ResNet baselines for multi-label ECG classification on PTB-XL, with seed variation, patient-level intervals and selective prediction.**
 
@@ -52,6 +52,10 @@ Mean per-label AUROC over seeds:
 HYP is the hardest label for both models (average precision about 0.66–0.69).
 
 ![Per-label AUROC and selective macro F1](results/kaggle-2026-11-19/fig_auroc_selective.png)
+
+## Paper
+
+`paper/main.tex` (PDF: `paper/main.pdf`): *Small Convolutional Networks for PTB-XL Superclasses: A Five-Seed Comparison with Patient-Level Intervals and Selective Prediction*. The trained ResNet is on Hugging Face: [MHkhan50/ptbxl-ecg-resnet](https://huggingface.co/MHkhan50/ptbxl-ecg-resnet).
 
 ## Run locally
 
