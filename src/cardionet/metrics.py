@@ -49,3 +49,18 @@ def abstention_summary(probabilities, confidence_threshold=0.8):
             "coverage": float(accepted.mean()),
             "accepted_records": int(accepted.sum()),
             "abstained_records": int((~accepted).sum())}
+
+
+def expected_calibration_error(y_true, probabilities, n_bins=15):
+    """Expected calibration error of one binary label: share-weighted gap between mean
+    predicted probability and observed frequency over equal-width probability bins."""
+    y = np.asarray(y_true, dtype=float)
+    p = np.asarray(probabilities, dtype=float)
+    edges = np.linspace(0.0, 1.0, n_bins + 1)
+    bins = np.clip(np.digitize(p, edges[1:-1], right=True), 0, n_bins - 1)
+    error = 0.0
+    for b in range(n_bins):
+        mask = bins == b
+        if mask.any():
+            error += mask.mean() * abs(y[mask].mean() - p[mask].mean())
+    return float(error)

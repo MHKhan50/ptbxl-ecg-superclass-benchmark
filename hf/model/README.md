@@ -23,7 +23,6 @@ A compact 1D residual network (about 0.19 M parameters) that scores a 10-second,
 > **Research use only. Not a medical device.** Outputs are model scores against PTB-XL labels. They are not diagnoses, triage or treatment advice and must not be used for patient care.
 
 - Code, training and full evaluation: [github.com/MHKhan50/ptbxl-ecg-superclass-benchmark](https://github.com/MHKhan50/ptbxl-ecg-superclass-benchmark)
-- Demo: [ECG Superclass Check](https://huggingface.co/spaces/MHkhan50/ecg-superclass-check)
 
 ## Which checkpoint and why
 

@@ -42,8 +42,10 @@ $0.925 \pm 0.003$ over seeds against $0.918 \pm 0.002$ for the plain network; av
 and the residual network is ahead in four of five seeds, so the gain is small but not an accident of one seed.
 Hypertrophy (HYP) is the hardest class for both models (AUROC 0.90, average precision 0.67). When the least
 confident records are set aside, macro F1 of the residual ensemble rises from 0.757 on all records to 0.784 on the
-most confident 80\% and 0.807 on the most confident half. The residual network matches the macro AUROC reported for
-the widely used \code{resnet1d\_wang} baseline with less than half its parameters. We release the code, per-seed metrics, a Kaggle notebook
+most confident 80\% and 0.807 on the most confident half. Both models are well calibrated (macro expected
+calibration error 0.028--0.029). With less than half the parameters of the widely used \code{resnet1d\_wang}
+baseline, the residual network's single runs match a recent re-run of that baseline (0.925), and its seed ensemble
+matches the 0.930 originally reported. We release the code, per-seed metrics, a Kaggle notebook
 and the trained model with its normalisation statistics and thresholds.
 \end{abstract}
 
@@ -75,7 +77,8 @@ validation data; and a released, reproducible package (code, Kaggle notebook, pe
 \section{Related work}
 
 \citet{strodthoff2021benchmarks} compared convolutional, recurrent and wavelet-feature models on all PTB-XL tasks
-and found that residual and Inception-style 1D networks were strongest. Their \code{resnet1d\_wang} adapts the
+and found that residual and Inception-style 1D networks were strongest; on the superclasses their best model,
+\code{resnet1d\_wang}, reached macro AUROC 0.930. Their \code{resnet1d\_wang} adapts the
 fully convolutional time-series baseline of \citet{wang2017tsc}, and \code{xresnet1d101} follows the residual design
 of \citet{he2016resnet}. A recent re-run of these baselines with repeated training reports superclass macro AUROC
 of 0.9253 (SD 0.003) for \code{resnet1d\_wang} with 451k parameters and 0.9148 (SD 0.002) for
@@ -136,9 +139,10 @@ ranges from 0.920 to 0.928 and the plain network from 0.916 to 0.921; the ranges
 the plain network is ahead (seed 59) shows why a single run could point either way. Averaged over seeds, and
 paired on the same bootstrap resamples, the residual network is better by 0.009 AUROC with an interval that excludes
 zero. The mean macro F1 of single runs is 0.745 for the residual and 0.736 for the plain network; ensembling adds
-about 0.01 to both. The residual network's mean single-run AUROC (0.925) matches the 0.9253 reported for
-\code{resnet1d\_wang} \citep{abreu2025code2} with fewer than half its parameters, although that figure comes
-from a different training pipeline and is not a paired comparison.
+about 0.01 to both. The residual network's mean single-run AUROC (0.925) matches the 0.9253 of a recent re-run of
+\code{resnet1d\_wang} \citep{abreu2025code2} with fewer than half its parameters, and its seed ensemble (0.932)
+is at the level of the 0.930 originally reported \citep{strodthoff2021benchmarks}; both figures come from other
+training pipelines, so these are not paired comparisons.
 
 \begin{table}[t]
 \centering
@@ -177,6 +181,30 @@ score, single residual runs keep on average 87\% of test records (84\% for the p
 abstaining (about 0.05 macro F1 at half coverage) is real but modest: low confidence flags some of the errors, not
 most of them.
 
+\paragraph{Calibration.} Selective prediction relies on the predicted probabilities, so we also measure how well
+they match observed frequencies (Table~\ref{tab:calib}): expected calibration error (ECE) with 15 equal-width bins
+per class, and the Brier score. Both models are well calibrated on every class, with ECE between 0.02 and 0.04;
+macro ECE is $0.028 \pm 0.005$ for the plain and $0.029 \pm 0.005$ for the residual network, and $0.024$ and $0.025$
+for the seed ensembles. The residual network has the lower Brier score (0.083 against 0.087), which reflects its
+better discrimination rather than better calibration. HYP has the lowest ECE and Brier score only because it is the
+rarest class (12\% of test records), so most of its probabilities are close to zero.
+
+\begin{table}[t]
+\centering
+\caption{Calibration on the test fold, mean over five seeds: expected calibration error (ECE, 15 bins) per class
+and macro Brier score. Test prevalence in brackets.}
+\label{tab:calib}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+ & NORM (45\%) & MI (25\%) & STTC (24\%) & CD (23\%) & HYP (12\%) & Macro Brier \\
+\midrule
+ECE, 1D CNN    & 0.028 & 0.034 & 0.023 & 0.034 & 0.022 & 0.087 \\
+ECE, 1D ResNet & 0.035 & 0.039 & 0.024 & 0.025 & 0.022 & 0.083 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \section{Limitations}
 
 All results come from one dataset, one test fold and one acquisition site, so they say nothing about other
@@ -189,10 +217,10 @@ published baselines is unpaired. The models are research artefacts and are not i
 \section{Conclusion}
 
 With five seeds and patient-level intervals, a 195k-parameter residual 1D network is better than a plain network of
-the same width by a small but consistent 0.009 macro AUROC on the PTB-XL superclasses, and reaches the level of
-much larger published baselines. Hypertrophy remains the weak class, and letting the model abstain on its least
+the same width by a small but consistent 0.009 macro AUROC on the PTB-XL superclasses, and its seed ensemble
+reaches the level of the larger published baselines. Both models are well calibrated. Hypertrophy remains the weak class, and letting the model abstain on its least
 confident half raises macro F1 by about 0.05. We suggest that new PTB-XL results report several seeds, patient-level
-intervals and a selective-prediction curve alongside the usual macro AUROC.
+intervals, calibration and a selective-prediction curve alongside the usual macro AUROC.
 
 \section*{Code and data availability}
 

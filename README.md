@@ -1,4 +1,4 @@
-# PTB-XL ECG Superclass Benchmark v0.3.0
+# PTB-XL ECG Superclass Benchmark v0.3.1
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24407647.svg)](https://doi.org/10.5281/zenodo.24407647)
 
@@ -33,7 +33,7 @@ Import `notebooks/ptbxl_cnn_vs_resnet.ipynb` from this repository into Kaggle, s
 
 ## Results
 
-Model on Hugging Face: [MHkhan50/ptbxl-ecg-resnet](https://huggingface.co/MHkhan50/ptbxl-ecg-resnet) · demo: [ECG Superclass Check](https://huggingface.co/spaces/MHkhan50/ecg-superclass-check) (research only).
+Model on Hugging Face: [MHkhan50/ptbxl-ecg-resnet](https://huggingface.co/MHkhan50/ptbxl-ecg-resnet) (research only).
 
 Official test fold (fold 10): 2,158 records. Kaggle T4 GPU, five seeds per model. Full outputs: `results/kaggle-2026-11-19/`.
 
@@ -52,6 +52,8 @@ Mean per-label AUROC over seeds:
 | 1D ResNet | 0.945 | 0.927 | 0.933 | 0.919 | 0.902 |
 
 HYP is the hardest label for both models (average precision about 0.66–0.69).
+
+Calibration (expected calibration error, 15 bins, mean over seeds): macro ECE 0.028 ± 0.005 (CNN) and 0.029 ± 0.005 (ResNet); per-class ECE 0.022–0.039; macro Brier 0.087 and 0.083. Rebuild with `python scripts/calibration.py <predictions dir> calibration.json`.
 
 ![Per-label AUROC and selective macro F1](results/kaggle-2026-11-19/fig_auroc_selective.png)
 

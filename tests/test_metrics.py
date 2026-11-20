@@ -16,3 +16,12 @@ def test_thresholds_have_one_per_label():
 def test_abstention_coverage_bounds():
     result = abstention_summary(np.array([[.99,.01,.99,.01,.99],[.5]*5]), .8)
     assert 0 <= result["coverage"] <= 1
+
+
+def test_expected_calibration_error():
+    import numpy as np
+    from cardionet.metrics import expected_calibration_error
+    y = np.array([0, 0, 1, 1])
+    assert expected_calibration_error(y, np.array([0.0, 0.0, 1.0, 1.0])) == 0.0
+    assert abs(expected_calibration_error(y, np.full(4, 0.5)) - 0.0) < 1e-12
+    assert abs(expected_calibration_error(np.ones(4), np.full(4, 0.5)) - 0.5) < 1e-12

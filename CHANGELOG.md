@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1 (2026-11-20)
+
+- Calibration: `expected_calibration_error` in `metrics.py` (with a test), `scripts/calibration.py`, and per-class ECE and Brier scores in `results/kaggle-2026-11-19/calibration.json`; new calibration table in the paper.
+- Paper: CODE-II cited as the npj Digital Medicine article; comparison with the 0.930 originally reported for `resnet1d_wang`; conclusion states that the seed ensemble, not a single run, reaches that level.
+
 ## 0.3.0 (2026-11-20)
 
 - Paper in `paper/` (LaTeX source, references, figure and PDF) reporting the five-seed results.

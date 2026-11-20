@@ -5,14 +5,15 @@
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[Abreu et~al.(2025)Abreu, Paix{\~a}o, Li, Gomes, Macfarlane, Oliveira,
+\bibitem[Abreu et~al.(2026)Abreu, Paix{\~a}o, Li, Gomes, Macfarlane, Oliveira,
   Carvalho, Sch{\"o}n, Ribeiro, and Ribeiro]{abreu2025code2}
 Petrus E. O. G.~B. Abreu, Gabriela M.~M. Paix{\~a}o, Jiawei Li, Paulo~R. Gomes,
   Peter~W. Macfarlane, Ana C.~S. Oliveira, Vin{\'i}cius~T. Carvalho, Thomas~B.
   Sch{\"o}n, Antonio Luiz~P. Ribeiro, and Ant{\^o}nio~H. Ribeiro.
 \newblock {CODE-II}: A large-scale dataset for artificial intelligence in {ECG}
   analysis.
-\newblock \emph{arXiv preprint arXiv:2511.15632}, 2025.
+\newblock \emph{npj Digital Medicine}, 2026.
+\newblock \doi{10.1038/s41746-026-02704-4}.
 
 \bibitem[Geifman and El-Yaniv(2017)]{geifman2017selective}
 Yonatan Geifman and Ran El-Yaniv.
