@@ -131,4 +131,15 @@ Record Python/PyTorch versions, random seed, config, git commit, dataset version
 
 ## Citation
 
+```bibtex
+@misc{hussain2026ptbxl,
+  author    = {Hussain, Muzammal},
+  title     = {{Small Convolutional Networks for PTB-XL Superclasses: A Five-Seed Comparison with Patient-Level Intervals and Selective Prediction}},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.24407647},
+  url       = {https://doi.org/10.5281/zenodo.24407647}
+}
+```
+
 If you use this software, cite the repository and the PTB-XL dataset paper listed in `docs/REFERENCES.md`.

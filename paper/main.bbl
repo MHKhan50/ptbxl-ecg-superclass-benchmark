@@ -1,4 +1,4 @@
-\begin{thebibliography}{7}
+\begin{thebibliography}{9}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -27,6 +27,22 @@ Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
 \newblock In \emph{IEEE Conference on Computer Vision and Pattern Recognition
   (CVPR)}, pages 770--778, 2016.
 \newblock \doi{10.1109/CVPR.2016.90}.
+
+\bibitem[Hussain(2026{\natexlab{a}})]{hussain2026fracatlas}
+Muzammal Hussain.
+\newblock {Pretrained Backbones, Calibration and Referral for Fracture
+  Detection on FracAtlas: A Three-Seed Comparison of a Small CNN, ConvNeXt,
+  DINOv2 and YOLO}.
+\newblock Zenodo, 2026{\natexlab{a}}.
+\newblock URL \url{https://doi.org/10.5281/zenodo.24429477}.
+
+\bibitem[Hussain(2026{\natexlab{b}})]{hussain2026lung}
+Muzammal Hussain.
+\newblock {Class Weights Miscalibrate Chest X-ray Classifiers by a Predictable
+  Amount: Calibration, Prevalence Shift and Subgroup Noise in a Reproducible
+  ChestX-ray14 Baseline}.
+\newblock Zenodo, 2026{\natexlab{b}}.
+\newblock URL \url{https://doi.org/10.5281/zenodo.23840865}.
 
 \bibitem[Loshchilov and Hutter(2019)]{loshchilov2019adamw}
 Ilya Loshchilov and Frank Hutter.
