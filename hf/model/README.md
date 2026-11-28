@@ -23,6 +23,8 @@ A compact 1D residual network (about 0.19 M parameters) that scores a 10-second,
 > **Research use only. Not a medical device.** Outputs are model scores against PTB-XL labels. They are not diagnoses, triage or treatment advice and must not be used for patient care.
 
 - Code, training and full evaluation: [github.com/MHKhan50/ptbxl-ecg-superclass-benchmark](https://github.com/MHKhan50/ptbxl-ecg-superclass-benchmark)
+- Paper: *Small Convolutional Networks for PTB-XL Superclasses: A Five-Seed Comparison with Patient-Level Intervals and Selective Prediction* (Zenodo, [doi:10.5281/zenodo.24467013](https://doi.org/10.5281/zenodo.24467013))
+- Software (code, notebooks, results): [doi:10.5281/zenodo.24407647](https://doi.org/10.5281/zenodo.24407647)
 
 ## Which checkpoint and why
 
@@ -82,7 +84,9 @@ confidence = float(np.maximum(p, 1 - p).mean())     # below 0.8: set aside for e
 
 ## Licence and citation
 
-Weights are derived from PTB-XL and released under CC BY 4.0, like the dataset; code is MIT. Please cite PTB-XL:
+Weights are derived from PTB-XL and released under CC BY 4.0, like the dataset; code is MIT. If you use the model, please cite the paper and PTB-XL:
+
+Hussain, M. (2026). *Small Convolutional Networks for PTB-XL Superclasses: A Five-Seed Comparison with Patient-Level Intervals and Selective Prediction*. Zenodo. https://doi.org/10.5281/zenodo.24467013
 
 Wagner, P., Strodthoff, N., Bousseljot, R.-D., Kreiseler, D., Lunze, F. I., Samek, W. and Schaeffter, T. (2020). PTB-XL, a large publicly available electrocardiography dataset. *Scientific Data* 7, 154. https://doi.org/10.1038/s41597-020-0495-6
 
